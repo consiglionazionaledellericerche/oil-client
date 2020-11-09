@@ -8,6 +8,7 @@ public class OilConfigurationProperties {
     private String url;
     private String username;
     private String password;
+    private String instance;
 
     public String getUrl() {
         return url;
@@ -33,4 +34,11 @@ public class OilConfigurationProperties {
         this.password = password;
     }
 
+    public String getInstance() {
+        return instance;
+    }
+
+    public void setInstance(String instance) {
+        this.instance = instance;
+    }
 }

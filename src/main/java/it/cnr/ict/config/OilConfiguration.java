@@ -2,7 +2,6 @@ package it.cnr.ict.config;
 
 import feign.Feign;
 import feign.auth.BasicAuthRequestInterceptor;
-import feign.form.FormEncoder;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
 import it.cnr.ict.repository.Oil;
@@ -24,8 +23,10 @@ public class OilConfiguration {
     public Oil oil(OilConfigurationProperties ocp) {
         return Feign.builder()
                 .requestInterceptor(new BasicAuthRequestInterceptor(ocp.getUsername(), ocp.getPassword()))
+                .encoder(new GsonEncoder())
                 .decoder(new GsonDecoder())
-                .encoder(new FormEncoder(new GsonEncoder()))
+//                .logger(new Slf4jLogger(Oil.class))
+//                .logLevel(Logger.Level.FULL)
                 .target(Oil.class, ocp.getUrl());
     }
 
