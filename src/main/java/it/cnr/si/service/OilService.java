@@ -7,8 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.concurrent.ExecutionException;
-
 @Service
 public class OilService {
 
@@ -20,12 +18,15 @@ public class OilService {
         this.oil = oil;
     }
 
-    public Long newProblem(ExternalProblem hd) throws ExecutionException, InterruptedException {
-        return oil.newProblem(hd).get();
+    public Long newProblem(ExternalProblem externalProblem) {
+        return oil.newProblem(externalProblem);
+    }
+
+    public Long addField(ExternalProblem externalProblem) {
+        return oil.addField(externalProblem);
     }
 
     public void addAttachments(long id, MultipartFile uploadedMultipartFile) {
-
 
     }
 

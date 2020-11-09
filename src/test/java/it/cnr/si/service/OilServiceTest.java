@@ -2,13 +2,12 @@ package it.cnr.si.service;
 
 import it.cnr.si.OilClientConfiguration;
 import it.cnr.si.domain.ExternalProblem;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.concurrent.ExecutionException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = OilClientConfiguration.class)
@@ -18,16 +17,21 @@ public class OilServiceTest {
     private OilService oilService;
 
     @Test
-    public void subitHelpDeskRequest() throws ExecutionException, InterruptedException {
+    public void subitHelpDeskRequest() {
 
         ExternalProblem hd = new ExternalProblem();
         hd.setEmail("foo@bar.it");
-        hd.setFirstName("foo");
+        hd.setFirstName("First Name");
+        hd.setFamilyName("Family Name");
+        hd.setDescrizione("Description ");
         hd.setLogin("foo.bar");
-        hd.setNota("nota");
-        hd.setTitolo("titolo");
+        hd.setTitolo("Title");
+        hd.setCategoria(1);
+        hd.setCategoriaDescrizione("Cat Desc");
+        hd.setConfirmRequested("n");
 
-        Long aLong = oilService.newProblem(hd);
+        Long idProblem = oilService.newProblem(hd);
+        Assert.assertNotNull(idProblem);
 
     }
 

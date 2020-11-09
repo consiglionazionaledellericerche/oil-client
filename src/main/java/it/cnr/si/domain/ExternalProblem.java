@@ -19,22 +19,9 @@ public class ExternalProblem implements Serializable {
     private String categoriaDescrizione;
     private String confirmRequested;
 
-	public String getConfirmRequested() {
-		return confirmRequested;
+    public ExternalProblem() {
+
 	}
-
-	public void setConfirmRequested(String confirmRequested) {
-		this.confirmRequested = confirmRequested;
-	}
-
-	// note
-    private String nota;
-    private Integer stato;
-    
-	public static final String ALLEGATO = "allegato";
-
-    // allegato bas64
-    private String allegato;
 
 	public String getFirstName() {
 		return firstName;
@@ -108,28 +95,11 @@ public class ExternalProblem implements Serializable {
 		this.categoriaDescrizione = categoriaDescrizione;
 	}
 
-	public String getNota() {
-		return nota;
+	public String getConfirmRequested() {
+		return confirmRequested;
 	}
 
-	public void setNota(String nota) {
-		this.nota = nota;
+	public void setConfirmRequested(String confirmRequested) {
+		this.confirmRequested = confirmRequested;
 	}
-
-	public Integer getStato() {
-		return stato;
-	}
-
-	public void setStato(Integer stato) {
-		this.stato = stato;
-	}
-
-	public String getAllegato() {
-		return allegato;
-	}
-
-	public void setAllegato(String allegato) {
-		this.allegato = allegato;
-	}
-
 }
