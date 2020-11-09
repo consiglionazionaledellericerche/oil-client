@@ -1,4 +1,4 @@
-package it.cnr.si.config;
+package it.cnr.ict.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

@@ -1,8 +1,8 @@
-package it.cnr.si.repository;
+package it.cnr.ict.repository;
 
 import feign.Headers;
 import feign.RequestLine;
-import it.cnr.si.domain.ExternalProblem;
+import it.cnr.ict.domain.ExternalProblem;
 
 @Headers({"Content-Type: application/json"})
 public interface Oil {

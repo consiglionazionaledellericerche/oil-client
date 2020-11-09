@@ -1,7 +1,7 @@
-package it.cnr.si.service;
+package it.cnr.ict.service;
 
-import it.cnr.si.domain.ExternalProblem;
-import it.cnr.si.repository.Oil;
+import it.cnr.ict.domain.ExternalProblem;
+import it.cnr.ict.repository.Oil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

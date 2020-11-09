@@ -1,7 +1,7 @@
-package it.cnr.si.service;
+package it.cnr.ict.service;
 
-import it.cnr.si.OilClientConfiguration;
-import it.cnr.si.domain.ExternalProblem;
+import it.cnr.ict.OilClientConfiguration;
+import it.cnr.ict.domain.ExternalProblem;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

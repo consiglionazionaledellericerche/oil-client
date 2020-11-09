@@ -1,11 +1,11 @@
-package it.cnr.si.config;
+package it.cnr.ict.config;
 
 import feign.Feign;
 import feign.auth.BasicAuthRequestInterceptor;
 import feign.form.FormEncoder;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
-import it.cnr.si.repository.Oil;
+import it.cnr.ict.repository.Oil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

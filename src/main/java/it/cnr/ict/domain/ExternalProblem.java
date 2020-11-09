@@ -1,4 +1,4 @@
-package it.cnr.si.domain;
+package it.cnr.ict.domain;
 
 import java.io.Serializable;
 
