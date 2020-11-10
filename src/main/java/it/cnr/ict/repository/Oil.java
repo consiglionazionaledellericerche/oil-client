@@ -23,7 +23,7 @@ public interface Oil {
 
     @RequestLine("POST /pest/{instance}/{id}")
     @Headers("Content-Type: multipart/form-data")
-    Long addAttachment(@Param("instance")String instance, @Param("id")String id,  @Param("file") File file);
+    Long addAttachment(@Param("id")Long id,  @Param("file")File file, @Param("instance")String instance);
 
     // CATEGORY
 

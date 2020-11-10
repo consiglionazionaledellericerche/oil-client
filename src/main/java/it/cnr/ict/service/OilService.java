@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+
 @Service
 public class OilService {
 
@@ -28,11 +30,11 @@ public class OilService {
         return oil.newProblem(externalProblem, ocp.getInstance());
     }
 
-    public Long addNote(Long idProblem, String note, String userName) {
-        return changeState(idProblem, State.NUOVA, note, userName);
+    public void addNote(Long idProblem, String note, String userName) {
+        changeState(idProblem, State.NUOVA, note, userName);
     }
 
-    public Long changeState(Long idProblem, State newState, String note, String userName) {
+    public void changeState(Long idProblem, State newState, String note, String userName) {
 
         ExternalProblem ep = new ExternalProblem();
         ep.setIdSegnalazione(idProblem);
@@ -40,11 +42,11 @@ public class OilService {
         ep.setStato(newState.getValue());
         ep.setLogin(userName);
 
-        return oil.addField(ep, ocp.getInstance());
+        oil.addField(ep, ocp.getInstance());
     }
 
-    public void addAttachments(long id, MultipartFile uploadedMultipartFile) {
-
+    public void addAttachments(Long idProblem,  File file) {
+        oil.addAttachment(idProblem, file, ocp.getInstance());
     }
 
 }
