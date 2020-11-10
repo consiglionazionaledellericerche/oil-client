@@ -37,7 +37,7 @@ public class OilService {
         ExternalProblem ep = new ExternalProblem();
         ep.setIdSegnalazione(idProblem);
         ep.setNota(note);
-        ep.setStato(newState);
+        ep.setStato(newState.getValue());
         ep.setLogin(userName);
 
         return oil.addField(ep, ocp.getInstance());

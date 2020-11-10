@@ -21,7 +21,7 @@ public class ExternalProblem implements Serializable {
 
 	// note
 	private String nota;
-	private State stato;
+	private Integer stato;
 
 	// allegato base64
 	private String allegato;
@@ -118,12 +118,16 @@ public class ExternalProblem implements Serializable {
 		this.nota = nota;
 	}
 
-	public State getStato() {
+	public Integer getStato() {
 		return stato;
 	}
 
-	public void setStato(State stato) {
+	public void setStato(Integer stato) {
 		this.stato = stato;
+	}
+
+	public void setStato(State stato) {
+		this.stato = stato.getValue();
 	}
 
 	public String getAllegato() {

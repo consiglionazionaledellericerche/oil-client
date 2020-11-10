@@ -34,7 +34,7 @@ public class OilServiceTest {
         Assert.assertNotNull(idProblem);
 
         Long idProblem2 = oilService.addNote(idProblem, "note", "missioni1");
-        Assert.assertNotNull(idProblem2);
+        Assert.assertNull(idProblem2);
 
     }
 
