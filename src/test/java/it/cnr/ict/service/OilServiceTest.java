@@ -33,14 +33,7 @@ public class OilServiceTest {
         Long idProblem = oilService.newProblem(hd);
         Assert.assertNotNull(idProblem);
 
-
-        ExternalProblem hd2 = new ExternalProblem();
-        hd2.setIdSegnalazione(idProblem);
-        hd2.setNota("nota");
-        hd2.setStato(0);
-        hd2.setLogin("foo.bar");
-        Long idProblem2 = oilService.addField(hd2);
-
+        Long idProblem2 = oilService.addNote(idProblem, "note", "missioni1");
         Assert.assertNotNull(idProblem2);
 
     }

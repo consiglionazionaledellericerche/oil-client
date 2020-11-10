@@ -1,5 +1,5 @@
 oil:
-  url: url
-  username: user
-  password: pw
+  url: http://helpwildfly.si.cnr.it:8080/rest
+  username: missioni1
+  password: missioni.1
   instance: HDSiper
