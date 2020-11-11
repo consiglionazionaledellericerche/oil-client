@@ -37,7 +37,7 @@ public interface Oil {
     void modifyCategory(Category category, @Param("instance")String instance);
 
     @RequestLine("DELETE /catg/{instance}/{id}")
-    void deleteCategory(@Param("instance")String instance, @Param("id")String id);
+    void deleteCategory(@Param("id")String id, @Param("instance")String instance);
 
     // USER
 
@@ -51,23 +51,23 @@ public interface Oil {
     void modifyUser(User user, @Param("instance")String instance);
 
     @RequestLine("DELETE /user/{instance}/{id}")
-    void deleteUser(@Param("instance")String instance, @Param("id")String id);
+    void deleteUser(@Param("id")String id, @Param("instance")String instance);
 
     // EXPERT
 
-    @RequestLine("GET /ucat/{instance}/{id}")
-    List<User> getExperts(@Param("instance")String instance, @Param("id")String id);
+    @RequestLine("GET /ucat/{instance}/{categoryId}")
+    List<User> getExperts(@Param("categoryId")Long categoryId, @Param("instance")String instance);
 
     @RequestLine("GET /ucat/{instance}/{uid}")
-    List<User> getExpertCategories(@Param("instance")String instance, @Param("uid")String uid);
+    List<User> getExpertCategories(@Param("uid")String uid, @Param("instance")String instance);
 
     @RequestLine("PUT /ucat/{instance}/{id}/{uid}")
-    void assignCategory2User(@Param("instance")String instance, @Param("id")String id, @Param("uid")String uid);
+    void assignCategory2User(@Param("id")String id, @Param("uid")String uid, @Param("instance")String instance);
 
     @RequestLine("POST /ucat/{instance}/{id}/{uid}")
-    void assignCategory2UserBIS(@Param("instance")String instance, @Param("id")String id, @Param("uid")String uid);
+    void assignCategory2UserBIS(@Param("id")String id, @Param("uid")String uid, @Param("instance")String instance);
 
     @RequestLine("DELETE /ucat/{instance}/{id}/{uid}")
-    void removeCategory2User(@Param("instance")String instance, @Param("id")String id, @Param("uid")String uid);
+    void removeCategory2User(@Param("id")String id, @Param("uid")String uid, @Param("instance")String instance);
 
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -41,6 +42,7 @@ public class OilServiceTest {
 
     }
 
+    @Test
     public void addAttachment() {
 
         ExternalProblem hd = new ExternalProblem();
@@ -54,11 +56,11 @@ public class OilServiceTest {
         hd.setCategoriaDescrizione("Cat Desc");
         hd.setConfirmRequested("n");
 
-        Long idProblem = oilService.newProblem(hd);
+//        Long idProblem = oilService.newProblem(hd);
 
-        Path path = Paths.get("D:file.txt");
+        File file = Paths.get("/home/zyzz/workspace/oil-client/src/test/resources/attachment.jpg").toFile();
 
-
+        System.out.println("test");
 
     }
 
