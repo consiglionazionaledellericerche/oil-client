@@ -1,5 +1,6 @@
 package it.cnr.ict.service;
 
+import feign.form.FormData;
 import it.cnr.ict.domain.Category;
 import it.cnr.ict.domain.ExternalProblem;
 import it.cnr.ict.domain.State;
@@ -10,13 +11,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.util.List;
 
 @Service
 public class OilService {
 
-    private final Logger log = LoggerFactory.getLogger(OilService.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(OilService.class);
 
     @Value("${oil.instance}")
     private String instance;
@@ -47,8 +47,8 @@ public class OilService {
         oil.addField(ep, instance);
     }
 
-    public void addAttachments(Long idProblem,  File file) {
-        oil.addAttachment(idProblem, file, instance);
+    public void addAttachments(Long idProblem, FormData formData) {
+        oil.addAttachment(idProblem, formData, instance);
     }
 
     public List<Category> getCategories() {

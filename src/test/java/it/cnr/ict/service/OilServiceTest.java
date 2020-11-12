@@ -1,18 +1,23 @@
 package it.cnr.ict.service;
 
+import feign.form.FormData;
 import it.cnr.ict.OilClientConfiguration;
+import it.cnr.ict.domain.Category;
 import it.cnr.ict.domain.ExternalProblem;
+import it.cnr.ict.domain.User;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = OilClientConfiguration.class)
@@ -43,7 +48,7 @@ public class OilServiceTest {
     }
 
     @Test
-    public void addAttachment() {
+    public void addAttachment() throws IOException {
 
         ExternalProblem hd = new ExternalProblem();
         hd.setEmail("foo@bar.it");
@@ -55,14 +60,40 @@ public class OilServiceTest {
         hd.setCategoria(1);
         hd.setCategoriaDescrizione("Cat Desc");
         hd.setConfirmRequested("n");
+        Long idProblem = oilService.newProblem(hd);
 
-//        Long idProblem = oilService.newProblem(hd);
+        Resource resource = new ClassPathResource("attachment.jpg");
+        byte[] bytesResource = Files.readAllBytes(Paths.get(resource.getURI()));
+        FormData formData = new FormData("image/jpg", resource.getFilename(), bytesResource);
 
-        File file = Paths.get("/home/zyzz/workspace/oil-client/src/test/resources/attachment.jpg").toFile();
-
-        System.out.println("test");
+        oilService.addAttachments(idProblem, formData);
 
     }
 
+    @Test
+    public void getCategories() {
+        List<Category> categories = oilService.getCategories();
+        Assert.assertNotNull(categories);
+    }
 
+    @Test
+    public void addCategory() {
+        Category cat = new Category();
+        cat.setId(88L);
+        cat.setNome("test");
+        cat.setDescrizione("desc");
+        oilService.addCategory(cat);
+    }
+
+    @Test
+    public void getUsers() {
+        List<User> users = oilService.getUsers();
+        Assert.assertNotNull(users);
+    }
+
+    @Test
+    public void getExperts() {
+        List<User> users = oilService.getExperts(1L);
+        Assert.assertNotNull(users);
+    }
 }
