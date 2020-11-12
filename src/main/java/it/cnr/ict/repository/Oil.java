@@ -3,11 +3,11 @@ package it.cnr.ict.repository;
 import feign.Headers;
 import feign.Param;
 import feign.RequestLine;
+import feign.form.FormData;
 import it.cnr.ict.domain.Category;
 import it.cnr.ict.domain.ExternalProblem;
 import it.cnr.ict.domain.User;
 
-import java.io.File;
 import java.util.List;
 
 @Headers({"Content-Type: application/json"})
@@ -23,7 +23,7 @@ public interface Oil {
 
     @RequestLine("POST /pest/{instance}/{id}")
     @Headers("Content-Type: multipart/form-data")
-    Long addAttachment(@Param("id")Long id,  @Param("file")File file, @Param("instance")String instance);
+    Long addAttachment(@Param("id")Long id, @Param("allegato")FormData formData, @Param("instance")String instance);
 
     // CATEGORY
 
