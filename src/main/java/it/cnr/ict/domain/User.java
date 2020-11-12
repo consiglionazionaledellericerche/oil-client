@@ -11,7 +11,7 @@ public class User implements Serializable {
 	private Long profile;
 	private String login;
 	private String email;
-	private Long struttura;
+	private String struttura;
 
     public User() {
 
@@ -57,11 +57,11 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
-	public Long getStruttura() {
+	public String getStruttura() {
 		return struttura;
 	}
 
-	public void setStruttura(Long struttura) {
+	public void setStruttura(String struttura) {
 		this.struttura = struttura;
 	}
 }
