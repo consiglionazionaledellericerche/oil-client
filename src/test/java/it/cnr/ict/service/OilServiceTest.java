@@ -6,6 +6,7 @@ import it.cnr.ict.domain.Category;
 import it.cnr.ict.domain.ExternalProblem;
 import it.cnr.ict.domain.User;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,12 +72,14 @@ public class OilServiceTest {
     }
 
     @Test
+    @Ignore
     public void getCategories() {
         List<Category> categories = oilService.getCategories();
         Assert.assertNotNull(categories);
     }
 
     @Test
+    @Ignore
     public void addCategory() {
         Category cat = new Category();
         cat.setId(88L);
@@ -86,12 +89,14 @@ public class OilServiceTest {
     }
 
     @Test
+    @Ignore
     public void getUsers() {
         List<User> users = oilService.getUsers();
         Assert.assertNotNull(users);
     }
 
     @Test
+    @Ignore
     public void getExperts() {
         List<User> users = oilService.getExperts(1L);
         Assert.assertNotNull(users);
