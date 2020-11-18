@@ -1,35 +1,86 @@
-image: docker:stable
+image: docker:git
+services:
+  - docker:dind
+
+stages:
+  - deploy
+  - build
+  - release
 
 variables:
-  DOCKER_DRIVER: overlay2
-  MAVEN_OPTS: "-Djava.awt.headless=true -Dmaven.repo.local=./.m2 -Dsonar.host.url=$SONAR_HOST_URL -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
-  CNR_MAVEN_VERSION: 3.4.0
-  MAVEN_CLI_OPTS: "-s .m2/settings.xml -Dmaven.repo.local=./.m2/repository -Dnexus.url=$NEXUS_URL -Dnexus.login=$NEXUS_USERNAME -Dnexus.pwd=$NEXUS_PASSWORD -Drepository.base.url=$CMIS_BASE_URL -Dsiper.url=$SIPER_URL -Dsiper.username=$SIPER_USERNAME -Dsiper.password=$SIPER_PASSWORD -Dpec.username=$PEC_USERNAME -Dpec.password=$PEC_PASSWORD -Djava.awt.headless=true --batch-mode --errors --fail-at-end --show-version"
-  MAVEN_CLI_CENTRAL_OPTS: "-s .m2/settings.xml -Dmaven.repo.local=./.m2/repository -Pmaven-central -Dnexus.url=$NEXUS_URL -Dsonatype.login=$SONATYPE_USERNAME -Dsonatype.pwd=$SONATYPE_PASSWORD -DskipTests --batch-mode --errors --fail-at-end --show-version"
+  MAVEN_OPTS: "-Djava.awt.headless=true -Dsonar.host.url=$SONAR_HOST_URL"
+  MAVEN_CLI_OPTS: "-s .m2/settings.xml -Dmaven.repo.local=./.m2/repository -Dnexus.url=$NEXUS_URL -Dnexus.login=$NEXUS_USERNAME -Dnexus.pwd=$NEXUS_PASSWORD -Dace.password=$ACE_PASSWORD -Djava.awt.headless=true --batch-mode --errors --fail-at-end --show-version"
+  MAVEN_CLI_CENTRAL_OPTS: "-s .m2/settings.xml -Dmaven.repo.local=./.m2/repository -Pprod,maven-central,release-version,docs -Dnexus.url=$NEXUS_URL -Dsonatype.login=$SONATYPE_USERNAME -Dsonatype.pwd=$SONATYPE_PASSWORD -DskipTests --batch-mode --errors --fail-at-end --show-version"
   CONTAINER_TEST_IMAGE: $CI_PROJECT_PATH:$CI_COMMIT_REF_NAME
   CONTAINER_RELEASE_IMAGE: $CI_PROJECT_PATH:latest
 
+cache:
+  paths:
+    - ./.m2/repository
+  # keep cache across branch
+  key: "$CI_PROJECT_PATH"
 
-stages:
-  - test
-  - release
+maven-deploy:
+  stage: deploy
+  image: maven:3-jdk-8
+  script: "mvn clean deploy $MAVEN_CLI_OPTS -Pprod"
+  artifacts:
+    paths:
+      - target/*.jar
+  only:
+    variables:
+      - $CI_COMMIT_MESSAGE !~ /prepare release/ && $CI_COMMIT_MESSAGE !~ /prepare for next development iteration/
+    refs:
+      - master
 
-test:
-  stage: test
-  image: docker.si.cnr.it/cnr-maven:$CNR_MAVEN_VERSION
+maven-install:
+  stage: deploy
+  image: maven:3-jdk-8
+  script: "mvn clean install $MAVEN_CLI_OPTS"
+  artifacts:
+    paths:
+      - target/*.jar
+  except:
+    - master
+    - tags
+
+maven-deploy-tag:
+  stage: deploy
+  image: maven:3-jdk-8
+  script: "mvn clean deploy $MAVEN_CLI_OPTS -Pprod -DskipTests"
+  artifacts:
+    paths:
+      - target/*.jar
+  only:
+    - tags
+
+#il deploy su maven central dal tag solo se il deploy della release è fallito per qualche motivo.
+perform-maven-central:
+  stage: release
+  image: maven:3-jdk-8
   script:
-    - mvn -B clean compile
-  allow_failure: true
+    # Add gpg private key
+    - 'which gnupg || ( apk add --update gnupg && rm -rf /var/cache/apk/*)'
+    - gpg -v --list-keys
+    - echo "pinentry-mode loopback" > /root/.gnupg/gpg.conf
+    - echo "allow-loopback-pinentry" > /root/.gnupg/gpg-agent.conf
+    - gpg --batch --import <(echo "$GPG_PRIVATE_KEY")
+    - mvn deploy -Darguments="-Dgpg.passphrase=$GPG_PASSPHRASE -DskipTests" -Dresume=false -B $MAVEN_CLI_CENTRAL_OPTS
+  only:
+    - tags
+  when: manual
 
+
+
+#la release è opzionale e manuale.
 perform-maven-release-maven-central:
   stage: release
-  image: maven:alpine
+  image: maven:3-jdk-8
   script:
-    - 'which git || (apk add --update git && rm -rf /var/cache/apk/*)'
+    - 'which git || (apt-get install git && apt-get clean all)'
     # Install ssh-agent if not already installed, it is required by Docker.
     # (change apt-get to yum if you use a CentOS-based image)
-    - 'which ssh-agent || ( apk add --update openssh-client && rm -rf /var/cache/apk/*)'
-    - 'which nodejs || (apk add --update nodejs nodejs-npm && rm -rf /var/cache/apk/*)'
+    - 'which ssh-agent || (apt-get install openssh-client && apt-get clean all)'
     # Run ssh-agent (inside the build environment)
     - eval $(ssh-agent -s)
 
@@ -47,17 +98,18 @@ perform-maven-release-maven-central:
     - git checkout -B "$CI_BUILD_REF_NAME"
 
     # Add gpg private key
-    - 'which gnupg || ( apk add --update gnupg && rm -rf /var/cache/apk/*)'
+    - 'which gnupg || (apt-get install gnupg && apt-get clean all)'
     - gpg -v --list-keys
     - echo "pinentry-mode loopback" > /root/.gnupg/gpg.conf
     - echo "allow-loopback-pinentry" > /root/.gnupg/gpg-agent.conf
     - gpg --batch --import <(echo "$GPG_PRIVATE_KEY")
-    - mvn release:clean release:prepare -Darguments="-Dgpg.passphrase=$GPG_PASSPHRASE -DskipTests" -Dresume=false -B $MAVEN_CLI_CENTRAL_OPTS
+    - mvn release:clean release:prepare -DreleaseVersion=$MAVEN_RELEASE_VERSION -Darguments="-Dgpg.passphrase=$GPG_PASSPHRASE -DskipTests" -Dresume=false -B $MAVEN_CLI_CENTRAL_OPTS
     - mvn release:perform -Darguments="-Dgpg.passphrase=$GPG_PASSPHRASE -DskipTests" -Dresume=false -B $MAVEN_CLI_CENTRAL_OPTS
+    - mvn -Pdocs scm:checkin
+
   only:
     variables:
       - $CI_COMMIT_MESSAGE !~ /prepare release/ && $CI_COMMIT_MESSAGE !~ /prepare for next development iteration/
     refs:
       - master
   when: manual
-
