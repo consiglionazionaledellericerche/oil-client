@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OilService {
@@ -21,6 +22,12 @@ public class OilService {
     @Value("${oil.instance}")
     private String instance;
 
+    @Value("${oil.default.categoria.id:1}")
+    private Integer defaultCategoria;
+
+    @Value("${oil.default.categoria.descrizione:default}")
+    private String defaultCategoriaDescrizione;
+
     private Oil oil;
 
     public OilService(Oil oil) {
@@ -28,6 +35,12 @@ public class OilService {
     }
 
     public Long newProblem(ExternalProblem externalProblem) {
+        externalProblem.setCategoria(Optional.ofNullable(externalProblem)
+                .flatMap(externalProblem1 -> Optional.ofNullable(externalProblem1.getCategoria()))
+                .orElseGet(() -> defaultCategoria));
+        externalProblem.setCategoriaDescrizione(Optional.ofNullable(externalProblem)
+                .flatMap(externalProblem1 -> Optional.ofNullable(externalProblem1.getCategoriaDescrizione()))
+                .orElseGet(() -> defaultCategoriaDescrizione));
         return oil.newProblem(externalProblem, instance);
     }
 
@@ -41,7 +54,7 @@ public class OilService {
         ExternalProblem ep = new ExternalProblem();
         ep.setIdSegnalazione(idProblem);
         ep.setNota(note);
-        ep.setStato(newState.getValue());
+        ep.setStato(newState);
         ep.setLogin(userName);
 
         oil.addField(ep, instance);
