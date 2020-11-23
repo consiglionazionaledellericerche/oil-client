@@ -1,9 +1,6 @@
 package it.cnr.ict.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.io.Serializable;
-import java.util.Objects;
 
 public class ExternalProblem implements Serializable {
 
@@ -28,11 +25,9 @@ public class ExternalProblem implements Serializable {
 
 	// allegato base64
 	private String allegato;
-	@JsonIgnore
-	private String allegatoContentType;
+
 
     public ExternalProblem() {
-
 	}
 
 	public String getFirstName() {
@@ -137,13 +132,5 @@ public class ExternalProblem implements Serializable {
 
 	public void setAllegato(String allegato) {
 		this.allegato = allegato;
-	}
-
-	public String getAllegatoContentType() {
-		return allegatoContentType;
-	}
-
-	public void setAllegatoContentType(String allegatoContentType) {
-		this.allegatoContentType = allegatoContentType;
 	}
 }

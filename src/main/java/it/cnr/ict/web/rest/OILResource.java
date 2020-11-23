@@ -7,10 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
@@ -32,7 +29,9 @@ public class OILResource {
     }
 
     @PostMapping("/problem")
-    public ResponseEntity<Long> createProblem(@RequestBody ExternalProblem externalProblem) throws URISyntaxException {
+    public ResponseEntity<Long> createProblem(@RequestBody ExternalProblem externalProblem,
+                                              @RequestParam(required = false) String allegatoContentType,
+                                              @RequestParam(required = false) String allegatoFileName) throws URISyntaxException {
         log.debug("REST request to create problem : {}", externalProblem);
         if (externalProblem.getIdSegnalazione() != null) {
             throw new ResponseStatusException(
@@ -42,8 +41,8 @@ public class OILResource {
         Optional<String> allegato = Optional.ofNullable(externalProblem.getAllegato());
         if (allegato.isPresent()) {
             FormData formData = new FormData(
-                    externalProblem.getAllegatoContentType(),
-                    "Allegato",
+                    allegatoContentType,
+                    allegatoFileName,
                     allegato.get().getBytes());
             oilService.addAttachments(result, formData);
         }
