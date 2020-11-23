@@ -12,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Base64;
 import java.util.Optional;
 
 /**
@@ -43,7 +44,7 @@ public class OILResource {
             FormData formData = new FormData(
                     allegatoContentType,
                     allegatoFileName,
-                    allegato.get().getBytes());
+                    Base64.getDecoder().decode(allegato.get().getBytes()));
             oilService.addAttachments(result, formData);
         }
         return ResponseEntity.created(new URI("/"))
