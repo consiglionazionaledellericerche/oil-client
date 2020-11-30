@@ -1,5 +1,12 @@
 oil:
-  url: url
-  username: user
-  password: pw
-  instance: HDSiper
+  url:
+  username:
+  password:
+  instance:
+  acceptcategories:
+    - id:
+      nome:
+      descrizione:
+    - id:
+      nome:
+      descrizione:
