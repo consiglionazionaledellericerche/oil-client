@@ -2,6 +2,8 @@ package it.cnr.ict.service;
 
 import feign.form.FormData;
 import it.cnr.ict.OilClientConfiguration;
+import it.cnr.ict.config.OilConfiguration;
+import it.cnr.ict.config.OilConfigurationProperties;
 import it.cnr.ict.domain.Category;
 import it.cnr.ict.domain.ExternalProblem;
 import it.cnr.ict.domain.User;
@@ -19,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = OilClientConfiguration.class)
@@ -26,6 +29,9 @@ public class OilServiceTest {
 
     @Autowired
     private OilService oilService;
+
+    @Autowired
+    private OilConfigurationProperties oilConfigurationProperties;
 
     @Test
     public void submitHelpDeskRequest() {
@@ -69,6 +75,12 @@ public class OilServiceTest {
 
         oilService.addAttachments(idProblem, formData);
 
+    }
+
+    @Test
+    public void getAcceptedCategories() {
+        List<Category> acceptcategories = oilConfigurationProperties.getAcceptcategories();
+        Assert.assertNotNull(acceptcategories);
     }
 
     @Test

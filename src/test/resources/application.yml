@@ -3,3 +3,10 @@ oil:
   username: missioni1
   password: missioni.1
   instance: HDSiper
+  acceptcategories:
+    - id: 1
+      nome: TEST 1
+      descrizione: DESC 1
+    - id: 2
+      nome: TEST 2
+      descrizione: DESC 2

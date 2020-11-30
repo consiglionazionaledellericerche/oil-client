@@ -1,6 +1,8 @@
 package it.cnr.ict.web.rest;
 
 import feign.form.FormData;
+import it.cnr.ict.config.OilConfigurationProperties;
+import it.cnr.ict.domain.Category;
 import it.cnr.ict.domain.ExternalProblem;
 import it.cnr.ict.service.OilService;
 import org.slf4j.Logger;
@@ -13,6 +15,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Base64;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -24,9 +28,11 @@ public class OILResource {
     private final Logger log = LoggerFactory.getLogger(OILResource.class);
 
     private final OilService oilService;
+    private final OilConfigurationProperties oilConfigurationProperties;
 
-    public OILResource(OilService oilService) {
+    public OILResource(OilService oilService, OilConfigurationProperties oilConfigurationProperties) {
         this.oilService = oilService;
+        this.oilConfigurationProperties = oilConfigurationProperties;
     }
 
     @PostMapping("/problem")
@@ -51,4 +57,8 @@ public class OILResource {
                 .body(result);
     }
 
+    @GetMapping("/acceptcategories")
+    public ResponseEntity<List<Category>> getCategories() {
+        return ResponseEntity.ok().body(oilConfigurationProperties.getAcceptcategories());
+    }
 }

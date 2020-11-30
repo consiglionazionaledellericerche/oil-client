@@ -1,6 +1,10 @@
 package it.cnr.ict.config;
 
+import it.cnr.ict.domain.Category;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import java.util.List;
+import java.util.Map;
 
 @ConfigurationProperties(prefix = "oil")
 public class OilConfigurationProperties {
@@ -9,6 +13,7 @@ public class OilConfigurationProperties {
     private String username;
     private String password;
     private String instance;
+    private List<Category> acceptcategories;
 
     public String getUrl() {
         return url;
@@ -40,5 +45,13 @@ public class OilConfigurationProperties {
 
     public void setInstance(String instance) {
         this.instance = instance;
+    }
+
+    public List<Category> getAcceptcategories() {
+        return acceptcategories;
+    }
+
+    public void setAcceptcategories(List<Category> acceptcategories) {
+        this.acceptcategories = acceptcategories;
     }
 }
