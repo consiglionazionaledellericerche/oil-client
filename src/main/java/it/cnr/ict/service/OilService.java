@@ -68,8 +68,8 @@ public class OilService {
         return oil.getCategories(instance);
     }
 
-    public void addCategory(Category category) {
-        oil.addCategory(category, instance);
+    public Long addCategory(Category category) {
+        return oil.addCategory(category, instance);
     }
 
     public void modifyCategory(Category category) {
