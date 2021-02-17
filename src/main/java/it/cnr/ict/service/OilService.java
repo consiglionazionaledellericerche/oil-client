@@ -112,7 +112,7 @@ public class OilService {
         oil.assignCategory2UserBIS(id, uid, instance);
     }
 
-    public void removeCategory2User(String instance, String id, String uid) {
+    public void removeCategory2User(String id, String uid) {
         oil.removeCategory2User(id, uid, instance);
     }
 
