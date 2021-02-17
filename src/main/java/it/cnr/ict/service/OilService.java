@@ -100,19 +100,19 @@ public class OilService {
         return oil.getExperts(categoryId, instance);
     }
 
-    List<User> getExpertCategories(String uid) {
+    public List<User> getExpertCategories(String uid) {
         return oil.getExpertCategories(uid, instance);
     }
 
-    void assignCategory2User(String id, String uid) {
+    public void assignCategory2User(String id, String uid) {
         oil.assignCategory2User(id, uid, instance);
     }
 
-    void assignCategory2UserBIS(String id, String uid) {
+    public void assignCategory2UserBIS(String id, String uid) {
         oil.assignCategory2UserBIS(id, uid, instance);
     }
 
-    void removeCategory2User(String instance, String id, String uid) {
+    public void removeCategory2User(String instance, String id, String uid) {
         oil.removeCategory2User(id, uid, instance);
     }
 

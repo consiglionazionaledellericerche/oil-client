@@ -31,7 +31,7 @@ public interface Oil {
     List<Category> getCategories(@Param("instance")String instance);
 
     @RequestLine("PUT /catg/{instance}")
-    void addCategory(Category category, @Param("instance")String instance);
+    Long addCategory(Category category, @Param("instance")String instance);
 
     @RequestLine("POST /catg/{instance}")
     void modifyCategory(Category category, @Param("instance")String instance);
