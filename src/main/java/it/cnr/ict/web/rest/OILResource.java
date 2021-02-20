@@ -7,6 +7,7 @@ import it.cnr.ict.domain.ExternalProblem;
 import it.cnr.ict.service.OilService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,13 +17,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Base64;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
  * REST controller for managing OIL.
  */
 @RestController
+@ConditionalOnProperty(name = "oil.url")
 @RequestMapping("/api/oil")
 public class OILResource {
     private final Logger log = LoggerFactory.getLogger(OILResource.class);

@@ -9,12 +9,14 @@ import it.cnr.ict.repository.Oil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@ConditionalOnProperty(name = "oil.url")
 public class OilService {
 
     private final Logger LOGGER = LoggerFactory.getLogger(OilService.class);
