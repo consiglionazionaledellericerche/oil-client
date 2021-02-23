@@ -8,6 +8,7 @@ public class User implements Serializable {
 
 	private String firstName;
 	private String familyName;
+	private String password;
 	private Long profile;
 	private String login;
 	private String email;
@@ -61,7 +62,17 @@ public class User implements Serializable {
 		return struttura;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public void setStruttura(String struttura) {
 		this.struttura = struttura;
 	}
+
+
 }

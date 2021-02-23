@@ -44,6 +44,9 @@ public interface Oil {
     @RequestLine("GET /user/{instance}")
     List<User> getUsers(@Param("instance")String instance);
 
+    @RequestLine("GET /user/{instance}/{id}")
+    User getUser(@Param("instance")String instance, @Param("id")String id);
+
     @RequestLine("PUT /user/{instance}")
     void addUser(User user, @Param("instance")String instance);
 

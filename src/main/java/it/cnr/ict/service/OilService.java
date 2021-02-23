@@ -86,6 +86,10 @@ public class OilService {
         return oil.getUsers(instance);
     }
 
+    public User getUser(String uid) {
+        return oil.getUser(instance, uid);
+    }
+
     public void addUser(User user) {
         oil.addUser(user, instance);
     }
