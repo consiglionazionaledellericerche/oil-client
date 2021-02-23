@@ -10,14 +10,14 @@
     <packaging>jar</packaging>
 
     <artifactId>oil-client</artifactId>
-    <version>1.0.14-SNAPSHOT</version>
+    <version>1.0.14</version>
 
     <name>Oil Client</name>
 
     <scm>
         <connection>scm:git:ssh://git@git.si.cnr.it/dev/oil-client.git</connection>
         <developerConnection>scm:git:ssh://git@git.si.cnr.it/dev/oil-client.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>1.0.14</tag>
     </scm>
 
     <properties>
