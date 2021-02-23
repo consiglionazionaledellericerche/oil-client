@@ -13,6 +13,7 @@ public class User implements Serializable {
 	private String login;
 	private String email;
 	private String struttura;
+	private String mailStop;
 
     public User() {
 
@@ -74,5 +75,11 @@ public class User implements Serializable {
 		this.struttura = struttura;
 	}
 
+	public String getMailStop() {
+		return mailStop;
+	}
 
+	public void setMailStop(String mailStop) {
+		this.mailStop = mailStop;
+	}
 }
